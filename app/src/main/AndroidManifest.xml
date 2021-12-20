@@ -15,7 +15,8 @@
         android:theme="@style/Theme.BusApp">
         <activity android:name=".activities.Login"></activity>
         <activity android:name=".activities.SplashScreen"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
