@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "180896219299",
+    "project_id": "hadir-bus-app",
+    "storage_bucket": "hadir-bus-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:180896219299:android:50898e091c8e2428437f16",
+        "android_client_info": {
+          "package_name": "com.prohacker.busapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "180896219299-uatqt4q5n76ii8d4kfutlo8unb1sm5jh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAG1iz4THj5ul9LErMTr32bQk4bPsLDgo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "180896219299-uatqt4q5n76ii8d4kfutlo8unb1sm5jh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

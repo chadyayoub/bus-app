@@ -10,4 +10,12 @@ public class Bus {
     private String busModel;
     private String busColor;
     private String busCondition;
+
+    public String getBusModel(){
+     return busModel;
+    }
+    public void setBusModel(String busModel)
+    {
+        this.busModel=busModel;
+    }
 }

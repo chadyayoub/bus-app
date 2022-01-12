@@ -8,4 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="hadeer_color_main">#1dae8f</color>
+    <color name="hadeer_color_secondary">#2ebf9f</color>
 </resources>
