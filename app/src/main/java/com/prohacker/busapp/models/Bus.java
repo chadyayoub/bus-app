@@ -1,3 +1,4 @@
+/*
 package com.prohacker.busapp.models;
 
 public class Bus {
@@ -19,3 +20,4 @@ public class Bus {
         this.busModel=busModel;
     }
 }
+*/

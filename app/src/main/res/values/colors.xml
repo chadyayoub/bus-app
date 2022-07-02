@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="hadeer_color_main">#1dae8f</color>
     <color name="hadeer_color_secondary">#2ebf9f</color>
+    <color name="grey">#CACACA</color>
+    <color name="error_text">#aaa</color>
 </resources>

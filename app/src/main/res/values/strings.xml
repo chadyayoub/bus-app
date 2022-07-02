@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">Bus App</string>
+    <string name="app_name">ESFVIP_Mobile</string>
     <string name="api_key"></string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="google_cloud_api_key">AIzaSyCFLcvl7BL-LR1CvyGa_cRvIHEpPCF-mCo</string>
+    <string name="forgot_password"><u>Forgot Password</u></string>
+    <string name="no_bluetooth">Bluetooth Not Enabled! \n Please enable bluetooth and \n press the bluetooth icon</string>
+    <string name="bluetooth_unsupported">Bluetooth Not Supported On This Device!</string>
 </resources>

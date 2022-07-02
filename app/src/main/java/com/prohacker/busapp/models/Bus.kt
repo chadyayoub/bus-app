@@ -2,9 +2,11 @@ package com.prohacker.busapp.models
 
 class Bus {
     //ints
-    private var busId = 0
-    private var seats = 0
-    private var seatAvailable = 0
+    private var busId:Int = 0
+    private var seats:Int = 0
+    private var seatAvailable:Int = 0
+
+
 
     //Strings
     private var busModel: String? = null
@@ -12,9 +14,12 @@ class Bus {
     private var busCondition: String? = null
 
 
+
     fun getBusModel(): String? {
         return busModel
     }
+
+
 
     fun setBusModel(busModel: String?) {
         this.busModel = busModel
