@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.location.LocationListenerCompat;
 
 import android.Manifest;
 import android.app.Activity;
@@ -22,10 +23,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -36,6 +41,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.prohacker.busapp.R;
+import com.prohacker.busapp.services.SoundPlayer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,6 +49,8 @@ import java.io.OutputStream;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.Timer;
@@ -51,13 +59,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements LocationListenerCompat {
 
     static final UUID mUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     ImageView noBluetoothImage;
     TextView noBluetoothText;
     Button bluetoothButton;
+    Button testButton;
     Button gpsButton;
     ListView listView;
 
@@ -78,7 +87,14 @@ public class HomeActivity extends AppCompatActivity {
     int ACCESS_FINE_LOCATION_REQUEST_CODE = 2;
     int ACCESS_COARSE_LOCATION_REQUEST_CODE = 3;
     int BLUETOOTH_ADMIN_REQUEST = 4;
+    int SEND_SMS = 5;
 
+    LocationManager mLocationManager;
+    SmsManager smsManager;
+
+    SoundPlayer player;
+
+    private String testNumber = "+96176866097";
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -91,6 +107,8 @@ public class HomeActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     void initView() {
+        player = new SoundPlayer(this);
+        testButton = findViewById((R.id.button_play_sound));
         noBluetoothImage = findViewById(R.id.bluetooth_error_image);
         noBluetoothText = findViewById(R.id.bluetooth_error_text);
         bluetoothButton = findViewById(R.id.button_bluetooth);
@@ -104,6 +122,12 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         checkBluetooth();
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendSMS("");
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -201,6 +225,26 @@ public class HomeActivity extends AppCompatActivity {
             return true;
         }
     });
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+
+            String message = "Some emergency happened, here is my current location: http://maps.google.com/?q=" + location.getLatitude() + "," + + location.getLongitude();
+            smsManager.sendTextMessage(testNumber, null, message, null, null);
+            Toast.makeText(this, "message sent", Toast.LENGTH_SHORT).show();
+            mLocationManager.removeUpdates(this);
+
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull List<Location> locations) {
+        LocationListenerCompat.super.onLocationChanged(locations);
+    }
+
+    @Override
+    public void onFlushComplete(int requestCode) {
+        LocationListenerCompat.super.onFlushComplete(requestCode);
+    }
 
     public class ServerClass extends Thread {
         private BluetoothServerSocket serverSocket;
@@ -347,6 +391,50 @@ public class HomeActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    void sendSMS(String phoneNumber){
+        if (ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    HomeActivity.this,
+                    new String[]{Manifest.permission.SEND_SMS},
+                    SEND_SMS
+            );
+            return;
+        }
+        smsManager = SmsManager.getDefault();
+        double longitude, latitude;
+        if (ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    HomeActivity.this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    ACCESS_COARSE_LOCATION_REQUEST_CODE
+            );
+            return;
+        }
+        if (ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    HomeActivity.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    ACCESS_FINE_LOCATION_REQUEST_CODE
+            );
+            return;
+        }
+        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if(location != null && location.getTime() > Calendar.getInstance().getTimeInMillis() - 2 * 60 * 1000) {
+            // Do something with the recent location fix
+            //  otherwise wait for the update below
+        }
+        else {
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
+        }
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 }
 
