@@ -66,7 +66,6 @@ public class HomeActivity extends AppCompatActivity implements LocationListenerC
     ImageView noBluetoothImage;
     TextView noBluetoothText;
     Button bluetoothButton;
-    Button testButton;
     Button gpsButton;
     ListView listView;
 
@@ -101,7 +100,7 @@ public class HomeActivity extends AppCompatActivity implements LocationListenerC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        if(savedInstanceState==null)
         initView();
     }
 
@@ -121,12 +120,6 @@ public class HomeActivity extends AppCompatActivity implements LocationListenerC
             }
         });
         checkBluetooth();
-        testButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendSMS("");
-            }
-        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -217,7 +210,7 @@ public class HomeActivity extends AppCompatActivity implements LocationListenerC
                 case STATE_MESSAGE_RECEIVED:
                     byte[] readBuff = (byte[]) msg.obj;
                     String tempMsg = new String(readBuff, 0, msg.arg1);
-                    playSound(tempMsg);
+                    //playSound(tempMsg);
                     break;
             }
             return true;
