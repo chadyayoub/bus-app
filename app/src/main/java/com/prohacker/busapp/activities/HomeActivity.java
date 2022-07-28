@@ -108,7 +108,6 @@ public class HomeActivity extends AppCompatActivity implements LocationListenerC
     @RequiresApi(api = Build.VERSION_CODES.M)
     void initView() {
         player = new SoundPlayer(this);
-        testButton = findViewById((R.id.button_play_sound));
         noBluetoothImage = findViewById(R.id.bluetooth_error_image);
         noBluetoothText = findViewById(R.id.bluetooth_error_text);
         bluetoothButton = findViewById(R.id.button_bluetooth);
@@ -218,14 +217,32 @@ public class HomeActivity extends AppCompatActivity implements LocationListenerC
                 case STATE_MESSAGE_RECEIVED:
                     byte[] readBuff = (byte[]) msg.obj;
                     String tempMsg = new String(readBuff, 0, msg.arg1);
-                    if(tempMsg.trim().equals("")) break;
-                    Toast.makeText(HomeActivity.this, tempMsg, Toast.LENGTH_SHORT).show();
+                    playSound(tempMsg);
                     break;
             }
             return true;
         }
     });
-
+    void playSound(String signal)
+    {
+        if(signal.trim().equals("")) return;
+        switch((char)signal.toLowerCase(Locale.ROOT).trim().charAt(0)) {
+            case 'f':
+                player.play(R.raw.front);
+                break;
+            case 'd':
+                player.play(R.raw.posture);
+                break;
+            case 'r':
+                player.play(R.raw.right);
+                break;
+            case 'l':
+                player.play(R.raw.cliff);
+                break;
+            case 'w':
+                player.play(R.raw.wet_floor);
+        }
+    }
     @Override
     public void onLocationChanged(@NonNull Location location) {
 
