@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:opacity="opaque">
-    <item android:drawable="@color/hadeer_color_main" />
+    <item android:drawable="@color/hadeer_color_main"
+        android:width="1080dp" android:height="1920dp"/>
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/hadeer_logo" />
+            android:src="@drawable/logowhite" />
     </item>
     <item android:top="160dp">
         <bitmap

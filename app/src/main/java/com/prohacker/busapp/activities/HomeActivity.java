@@ -93,6 +93,7 @@ public class HomeActivity extends AppCompatActivity implements LocationListenerC
 
     SoundPlayer player;
 
+    //TODO REMOVE THIS AND ADD IN APP NUMBER
     private String testNumber = "+96176866097";
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -112,11 +113,18 @@ public class HomeActivity extends AppCompatActivity implements LocationListenerC
         bluetoothButton = findViewById(R.id.button_bluetooth);
         gpsButton = findViewById(R.id.button_gps);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        //TODO replace listview with recycler view
         listView = findViewById(R.id.list_view);
         bluetoothButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkBluetooth();
+            }
+        });
+        gpsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playSound("w");
             }
         });
         checkBluetooth();
@@ -170,6 +178,7 @@ public class HomeActivity extends AppCompatActivity implements LocationListenerC
 
                         Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
                         BluetoothDevice[] Geeks = pairedDevices.toArray(new BluetoothDevice[pairedDevices.size()]);
+                        //TODO replace first device paired with pressed device in recycler view
                         ClientClass serverClass = new ClientClass(Geeks[0]);
                         serverClass.start();
                     }
@@ -210,7 +219,7 @@ public class HomeActivity extends AppCompatActivity implements LocationListenerC
                 case STATE_MESSAGE_RECEIVED:
                     byte[] readBuff = (byte[]) msg.obj;
                     String tempMsg = new String(readBuff, 0, msg.arg1);
-                    //playSound(tempMsg);
+                    playSound(tempMsg);
                     break;
             }
             return true;

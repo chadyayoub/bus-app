@@ -14,10 +14,14 @@
         <entry key="..\:/Users/User/projects/androidStudioProjects/bus-app/app/src/main/res/drawable/ic_baseline_gps_off_24.xml" value="0.1405" />
         <entry key="..\:/Users/User/projects/androidStudioProjects/bus-app/app/src/main/res/drawable/input_background.xml" value="0.1405" />
         <entry key="..\:/Users/User/projects/androidStudioProjects/bus-app/app/src/main/res/drawable/input_layout_background.xml" value="0.1405" />
+        <entry key="..\:/Users/User/projects/androidStudioProjects/bus-app/app/src/main/res/drawable/splash_screen_background.xml" value="0.1785" />
+        <entry key="..\:/Users/User/projects/androidStudioProjects/bus-app/app/src/main/res/drawable/tab_selected.xml" value="0.1785" />
         <entry key="..\:/Users/User/projects/androidStudioProjects/bus-app/app/src/main/res/layout/activity_home.xml" value="0.25" />
+        <entry key="..\:/Users/User/projects/androidStudioProjects/bus-app/app/src/main/res/layout/activity_login.xml" value="0.16979166666666667" />
         <entry key="..\:/Users/User/projects/androidStudioProjects/bus-app/app/src/main/res/layout/activity_splash_screen.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/User/projects/androidStudioProjects/bus-app/app/src/main/res/layout/bluetooth_device_viewholder.xml" value="0.5" />
         <entry key="..\:/Users/User/projects/androidStudioProjects/bus-app/app/src/main/res/layout/fragment_login.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/User/projects/androidStudioProjects/bus-app/app/src/main/res/mipmap-anydpi-v26/iconapp.xml" value="0.126" />
         <entry key="..\:/Users/user/AndroidStudioProjects/BusApp2/app/src/main/res/layout/activity_home.xml" value="0.14666666666666667" />
         <entry key="..\:/Users/user/AndroidStudioProjects/BusApp2/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_device_list.xml" value="0.11574074074074074" />
