@@ -41,6 +41,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.prohacker.busapp.R;
+import com.prohacker.busapp.services.CodeGenerator;
 import com.prohacker.busapp.services.SoundPlayer;
 
 import java.io.IOException;
@@ -113,7 +114,7 @@ public class HomeActivity extends AppCompatActivity implements LocationListenerC
         bluetoothButton = findViewById(R.id.button_bluetooth);
         gpsButton = findViewById(R.id.button_gps);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        //TODO replace listview with recycler view
+        //TODO remove useless list
         listView = findViewById(R.id.list_view);
         bluetoothButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,10 +125,9 @@ public class HomeActivity extends AppCompatActivity implements LocationListenerC
         gpsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playSound("w");
+
             }
         });
-        checkBluetooth();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

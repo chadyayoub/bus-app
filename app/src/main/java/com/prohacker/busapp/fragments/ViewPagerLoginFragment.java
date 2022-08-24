@@ -45,12 +45,12 @@ public class ViewPagerLoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        LoginAdapter loginAdapter = new LoginAdapter(getActivity(), getContext());
+        LoginAdapter loginAdapter = new LoginAdapter(getActivity());
         viewPager.setAdapter(loginAdapter);
 
 
         new TabLayoutMediator(tabLayout, viewPager,
-                (tab, position) -> tab.setText(position == 0 ? "Login":"Sign Up")
+                (tab, position) -> tab.setText("Add contact number")
         ).attach();
     }
 }

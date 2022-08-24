@@ -1,55 +1,60 @@
 package com.prohacker.busapp.activities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.location.LocationListenerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager2.widget.ViewPager2;
 
+import android.Manifest;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.appcheck.FirebaseAppCheck;
-import com.google.firebase.appcheck.safetynet.SafetyNetAppCheckProviderFactory;
 import com.prohacker.busapp.R;
-import com.prohacker.busapp.adapters.LoginAdapter;
-import com.prohacker.busapp.fragments.LoginFragment;
+import com.prohacker.busapp.fragments.AddPhoneFragment;
 import com.prohacker.busapp.fragments.SmsCodeFragment;
 import com.prohacker.busapp.fragments.ViewPagerLoginFragment;
-import com.prohacker.busapp.services.FirebaseAuthentication;
+import com.prohacker.busapp.services.CodeGenerator;
 
-public class Login extends AppCompatActivity {
+import java.util.Calendar;
+import java.util.List;
+
+public class Login extends AppCompatActivity implements  AddPhoneFragment.Listener, LocationListenerCompat {
     FrameLayout container;
     Button confirm;
     ConstraintLayout constraintLayout;
     int currentStep = 0;
+    SmsManager smsManager;
     ValueAnimator slideAnimator;
+    CodeGenerator codeGenerator;
+    String number;
+    int SEND_SMS = 5;
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        FirebaseApp.initializeApp(this);
-        FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
-        firebaseAppCheck.installAppCheckProviderFactory(
-                SafetyNetAppCheckProviderFactory.getInstance());
         initView();
     }
 
@@ -60,6 +65,9 @@ public class Login extends AppCompatActivity {
         confirm = findViewById(R.id.confirm_button);
         container = findViewById(R.id.container);
         constraintLayout = findViewById(R.id.constraintLayout);
+        codeGenerator = new CodeGenerator();
+        // register activity as listener
+        AddPhoneFragment.mListener=this;
 
         setFragment(new ViewPagerLoginFragment());
 
@@ -67,23 +75,56 @@ public class Login extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseAuthentication firebaseAuthentication = new FirebaseAuthentication(Login.this);
-                firebaseAuthentication.getAuthState();
-                firebaseAuthentication.register("+961070636281","Chady","Ayoub");
                 if (currentStep == 0) {
                     setFragment(new SmsCodeFragment());
                     // Gets the layout params that will allow you to resize the layout
                     // Changes the height and width to the specified *pixels*
+
+                    sendSMS(number);
+
                     animateLayout(300);
                     currentStep = 1;
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
+                if(currentStep==1){
+
+                }
             }
         });
     }
 
+    void sendSMS(String phoneNumber){
+        if (ActivityCompat.checkSelfPermission(Login.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    Login.this,
+                    new String[]{Manifest.permission.SEND_SMS},
+                    SEND_SMS
+            );
+            return;
+        }
+        smsManager = SmsManager.getDefault();
+        String message = "Your verification code is " + codeGenerator.getCodeMessage();
+        smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+        Toast.makeText(this, "message sent", Toast.LENGTH_SHORT).show();
 
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+
+
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull List<Location> locations) {
+        LocationListenerCompat.super.onLocationChanged(locations);
+    }
+
+    @Override
+    public void onFlushComplete(int requestCode) {
+        LocationListenerCompat.super.onFlushComplete(requestCode);
+    }
 
     void animateLayout(int height){
         int newHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, height, getResources().getDisplayMetrics());
@@ -133,5 +174,11 @@ public class Login extends AppCompatActivity {
             currentStep=0;
         }
         return;
+    }
+
+    @Override
+    public void onPhoneNumberChanged(String s) {
+        Toast.makeText(Login.this, s, Toast.LENGTH_SHORT ).show();
+        number = "+961"+s;
     }
 }

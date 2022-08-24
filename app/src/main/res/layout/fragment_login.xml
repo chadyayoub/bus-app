@@ -4,13 +4,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.LoginFragment">
+    tools:context=".fragments.AddPhoneFragment">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_gravity="center">
-    <EditText
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="note: emergency contact number not blind guy number"
+            android:layout_marginHorizontal="15dp"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:layout_marginBottom="10dp"
+            android:textAlignment="center"
+            android:layout_weight="0.1"
+            >
+
+        </TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="0.6"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp">
+        <EditText
+            android:layout_weight="0.1"
         android:id="@+id/phone_number_editText"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -25,32 +44,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+
+</LinearLayout>
 
 
-    <EditText
-        android:id="@+id/password_editText"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/input_background"
-        android:textColor="@color/black"
-        android:elevation="4dp"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:textColorHint="@color/grey"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/last_name_editText" />
 
-    <TextView
-        android:id="@+id/forgot_password_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/forgot_password"
-        android:layout_gravity="end"
-        android:layout_marginHorizontal="15dp"
-        android:textColor="@color/white" />
-        </LinearLayout>
 </FrameLayout>
